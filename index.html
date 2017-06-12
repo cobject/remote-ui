@@ -1,7 +1,21 @@
 <html>
   <head>
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
-    <h1>hello electron</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <img id="camera-img" width="320" height="240"></div>
+        <div class="col-lg-4">
+          <button type="button" class="btn btn-primary btn-lg" id='connect-btn'>connect</button>
+        </div>
+    </div>
   </body>
+  <script> window.$ = $ = jQuery = require('jquery')</script>
+  <script>
+    require('bootstrap')
+    require('./assets/event-listener')
+    // require('./assets/tcp-client')
+  </script>
 </html>
