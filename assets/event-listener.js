@@ -1,3 +1,3 @@
 $('#connect-btn').click(function(){
-  require('./tcp-client');
+  require('./image-receiver');
 });
