@@ -1,7 +1,12 @@
 var net = require('net');
 var client = new net.Socket();
+var HOST = $('#ip').val();;
 
-client.connect(3002, '127.0.0.1', function() {
+// var HOST = '172.20.10.14'; // robot ip
+// var HOST = '127.0.0.1';
+console.log("host = ", HOST);
+
+client.connect(3002, HOST, function() {
 	console.log('Connected');
   $('#robot-control-left').click(function(){
     client.write("left");
