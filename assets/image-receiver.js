@@ -1,11 +1,11 @@
-var PORT = 3333;
+var PORT = 3000;  // server port
 var HOST = '127.0.0.1';
 
 var dgram = require('dgram');
 var message = new Buffer('My KungFu is Good!');
 
 var client = dgram.createSocket('udp4');
-client.bind(3000);
+client.bind(3001); // client port
 client.on('message', function (msg, server) {
     console.log(server.address + ':' + server.port);
 		// client.close();
