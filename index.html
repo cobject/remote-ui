@@ -16,10 +16,20 @@
         </div>
       </div>
       <div class="row">
+        <button type="button" class="btn btn-primary btn-lg" id='robot-control-forward'>forward</button>
+        <button type="button" class="btn btn-primary btn-lg" id='robot-control-backward'>backward</button>
         <button type="button" class="btn btn-primary btn-lg" id='robot-control-left'>left</button>
-        <button type="button" class="btn btn-primary btn-lg" id='robot-control-go'>go</button>
-        <button type="button" class="btn btn-primary btn-lg" id='robot-control-back'>back</button>
         <button type="button" class="btn btn-primary btn-lg" id='robot-control-right'>right</button>
+      </div>
+      <div class="row">
+        <button type="button" class="btn btn-primary btn-lg" id='camera-control-forward'>forward</button>
+        <button type="button" class="btn btn-primary btn-lg" id='camera-control-backward'>backward</button>
+        <button type="button" class="btn btn-primary btn-lg" id='camera-control-left'>left</button>
+        <button type="button" class="btn btn-primary btn-lg" id='camera-control-right'>right</button>
+      </div>
+      <div class="row">
+        <button type="button" class="btn btn-primary btn-lg" id='mode-control-auto'>auto</button>
+        <button type="button" class="btn btn-primary btn-lg" id='mode-control-manual'>manual</button>
       </div>
     </div>
   </body>
@@ -27,6 +37,5 @@
   <script>
     require('bootstrap')
     require('./assets/event-listener')
-    // require('./assets/tcp-client')
   </script>
 </html>

@@ -1,10 +1,18 @@
 var electron = require('electron');
-const app = electron.app;
-var BrowserWindow = electron.BrowserWindow;
-var mainWindow = null;
+const { app, BrowserWindow } = electron;
 
-app.on('ready', function(){
-  mainWindow = new BrowserWindow({window: 800, height: 600});
+let mainWindow = null;
+
+// require('electron-reload')(__dirname);
+
+app.on('ready', createMainWindow);
+
+function createMainWindow() {
+  mainWindow = new BrowserWindow({ window: 1200, height: 600});
   mainWindow.loadURL('file://' + __dirname + '/index.html');
   mainWindow.webContents.openDevTools();
-});
+
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
+}
