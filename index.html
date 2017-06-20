@@ -16,26 +16,29 @@
         </div>
       </div>
       <div class="row">
-        <button type="button" class="btn btn-primary btn-lg" id='robot-control-forward'>forward</button>
-        <button type="button" class="btn btn-primary btn-lg" id='robot-control-backward'>backward</button>
-        <button type="button" class="btn btn-primary btn-lg" id='robot-control-left'>left</button>
-        <button type="button" class="btn btn-primary btn-lg" id='robot-control-right'>right</button>
+        <button type="button" class="btn btn-primary btn-lg" id='robot-fwd'>forward</button>
+        <button type="button" class="btn btn-primary btn-lg" id='robot-back'>backward</button>
+        <button type="button" class="btn btn-primary btn-lg" id='robot-left'>left</button>
+        <button type="button" class="btn btn-primary btn-lg" id='robot-right'>right</button>
       </div>
       <div class="row">
-        <button type="button" class="btn btn-primary btn-lg" id='camera-control-forward'>forward</button>
-        <button type="button" class="btn btn-primary btn-lg" id='camera-control-backward'>backward</button>
-        <button type="button" class="btn btn-primary btn-lg" id='camera-control-left'>left</button>
-        <button type="button" class="btn btn-primary btn-lg" id='camera-control-right'>right</button>
+        <button type="button" class="btn btn-primary btn-lg" id='cam-fwd'>forward</button>
+        <button type="button" class="btn btn-primary btn-lg" id='cam-back'>backward</button>
+        <button type="button" class="btn btn-primary btn-lg" id='cam-left'>left</button>
+        <button type="button" class="btn btn-primary btn-lg" id='cam-right'>right</button>
       </div>
       <div class="row">
-        <button type="button" class="btn btn-primary btn-lg" id='mode-control-auto'>auto</button>
-        <button type="button" class="btn btn-primary btn-lg" id='mode-control-manual'>manual</button>
+        <button type="button" class="btn btn-primary btn-lg" id='mode-auto'>auto</button>
+        <button type="button" class="btn btn-primary btn-lg" id='mode-manual'>manual</button>
       </div>
     </div>
   </body>
   <script> window.$ = $ = jQuery = require('jquery')</script>
   <script>
     require('bootstrap')
-    require('./assets/event-listener')
+    require('./assets/event-handler')
+    require('./assets/camera-event-handler')
+    require('./assets/robot-event-handler')
+    require('./assets/mode-event-handler')
   </script>
 </html>
