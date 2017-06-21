@@ -5,11 +5,19 @@
   "main": "main.js",
   "author": "Suhun Kim",
   "homepage": "https://bitbucket.org/5chitect/remote-ui",
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "electron .",
+    "static": "jshint --reporter node_modules/jshint-html-reporter/reporter.js main.js > report.html"
+  },
   "dependencies": {
     "bootstrap": "~3.3.7",
     "jquery": "~3.2.1"
   },
   "devDependencies": {
-    "electron-reload": "^1.2.1"
+    "electron-reload": "^1.2.1",
+    "jest": "^20.0.4",
+    "jshint": "^2.9.4",
+    "jshint-html-reporter": "^0.2.5"
   }
 }

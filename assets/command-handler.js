@@ -10,9 +10,9 @@ class CommandHandler {
 		this.host = host;
 		this.window = window;
 		this.commandManager = new CommandManager(this.host);
-		this.registerCameraCommands();
-		this.registerRobotCommands();
-		this.registerModeCommands();
+		ipcMain.on('camera:control', this.onHandleCameraCommands.bind(this));
+		ipcMain.on('robot:control', this.onHandleRobotCommands.bind(this));
+		ipcMain.on('mode:control', this.onHandleModeCommands.bind(this));
 	}
 
 	start() {
@@ -28,35 +28,19 @@ class CommandHandler {
 	  console.log('Received: ', data);
 	}
 
-	registerCameraCommands() {
-		ipcMain.on('cam:tilt', (angle) => {
-			// console.log('cam:tilt', angle);
-		});
-		ipcMain.on('cam:pan', (angle) => {
-			// console.log('cam:pan', angle);
-		});
+	onHandleCameraCommands(event, data) {
+		console.log('onHandleCameraCommands: ', data);
+		// TODO
 	}
 
-	registerRobotCommands() {
-		ipcMain.on('robot:fwd', (onOff) => {
-			console.log('robot:fwd');
-			this.commandManager.write(new Uint8Array([2, 4, 1]));
-		});
-		ipcMain.on('robot:back', (onOff) => {
-
-		});
-		ipcMain.on('robot:left', (onOff) => {
-
-		});
-		ipcMain.on('robot:right', (onOff) => {
-
-		});
+	onHandleRobotCommands(event, data) {
+		console.log('onHandleRobotCommands: ', data);
+		this.commandManager.write(new Uint8Array([1, data.cmd, data.onOff == true ? 1 : 0]));
 	}
 
-	registerModeCommands() {
-		ipcMain.on('mode:set', (mode) => {
-
-		});
+	onHandleModeCommands(event, data) {
+		console.log('onHandleModeCommands: ', data);
+		// TODO
 	}
 }
 
