@@ -7,7 +7,8 @@ let mainWindow = null;
 let imageReceiver = null;
 let commandHandler = null;
 
-const HOST_IP = "127.0.0.1";
+// const HOST_IP = "127.0.0.1";
+const HOST_IP = "172.20.10.14";
 // require('electron-reload')(__dirname);
 
 app.on('ready', createMainWindow);
