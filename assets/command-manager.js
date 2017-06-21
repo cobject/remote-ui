@@ -1,5 +1,5 @@
 const net = require('net');
-const PORT = 3002;
+const TCP_PORT = 3000;
 
 // var HOST = '172.20.10.14'; // robot ip
 
@@ -11,7 +11,7 @@ class CommandManager {
 	}
 
 	connect() {
-		this.client.connect(PORT, this.host, () => {
+		this.client.connect(TCP_PORT, this.host, () => {
 			console.log('Connected');
 		});
 	}

@@ -1,10 +1,11 @@
 const dgram = require('dgram');
-const SERVER_PORT = 3001;
+const REMOTE_PORT = 3001;
+const LOCAL_PORT = 3101;
 
 class ImageReceiver {
   constructor(host, window){
     this.host = host;
-    this.port = 3000;
+    this.port = REMOTE_PORT;
     this.window = window;
     this.client = dgram.createSocket('udp4');
     this.client.on('message', this.onMessage.bind(this));
@@ -12,7 +13,7 @@ class ImageReceiver {
   }
 
   bind() {
-    this.client.bind(SERVER_PORT);
+    this.client.bind(LOCAL_PORT);
   }
 
   close() {

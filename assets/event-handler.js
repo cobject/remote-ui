@@ -1,10 +1,12 @@
 const electron = require('electron');
 const { ipcRenderer } = electron;
+const HOST_IP = "127.0.0.1";
+const TCP_PORT = 3000;
 
 $('#connect-btn').click(() => {
-  $('#ip').html('127.0.0.1');
-  $('#port').html('3002');
-  ipcRenderer.send('connect:request', '127.0.0.1');
+  $('#ip').html(HOST_IP);
+  $('#port').html(TCP_PORT);
+  ipcRenderer.send('connect:request', HOST_IP);
 });
 
 ipcRenderer.on('image:receive', (event, data) => {

@@ -7,6 +7,7 @@ let mainWindow = null;
 let imageReceiver = null;
 let commandHandler = null;
 
+const HOST_IP = "127.0.0.1";
 // require('electron-reload')(__dirname);
 
 app.on('ready', createMainWindow);
@@ -33,10 +34,10 @@ function createMainWindow() {
 }
 
 ipcMain.on('connect:request', (event, host)=>{
-  console.log('host:', host);
-  imageReceiver = new ImageReceiver(host, mainWindow);
+  console.log('host:', HOST_IP);
+  imageReceiver = new ImageReceiver(HOST_IP, mainWindow);
   imageReceiver.bind();
 
-  commandHandler = new CommandHandler(host, mainWindow);
+  commandHandler = new CommandHandler(HOST_IP, mainWindow);
   commandHandler.start();
 });
