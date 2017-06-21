@@ -1,21 +1,14 @@
 const electron = require('electron');
 const { ipcRenderer } = electron;
 
-// $('#mode-control-auto').click(function(){
-//   buf[1] = 1;
-//   client.write(Buffer.from(buf));
-// });
-// $('#mode-control-manual').click(function(){
-//   buf[1] = 2;
-//   client.write(Buffer.from(buf));
-// });
-
-$('#mode-control-auto').click(() => {
-    ipcRenderer.send('mode:set', "auto");
+$('#mode-auto').click(() => {
+  $('#mode').html("auto");
+  ipcRenderer.send('mode:control', 1);
 });
 
-$('#mode-control-manual').click( () => {
-  ipcRenderer.send('mode:set', "manual");
+$('#mode-manual').click( () => {
+  $('#mode').html("manual");
+  ipcRenderer.send('mode:control', 2);
 });
 
 ipcRenderer.on('mode:notify', (event, data) => {

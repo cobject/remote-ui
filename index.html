@@ -1,41 +1,84 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css" rel="stylesheet">
+    <link href="./assets/css/common.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
+      <!-- control -->
       <div class="row">
-        <div class="col-lg-8">
-          <img id="camera-img" width="320" height="240"></div>
-        <div class="col-lg-4">
-          <div class="input-group">
-            <span class="input-group-addon">ip</span>
-            <input type="text" class="form-control" placeholder="enter server ip" aria-describedby="basic-addon2", id="ip" value="172.20.10.14">
+        <!-- image -->
+        <img class="col-sm-5" src="https://dummyimage.com/480x360/000/fff" id="camera-img">
+        <!-- robot control -->
+        <div class="col-sm-3">
+          <h3>Robot control</h3>
+          <div class="container">
+            <div class="row">
+              <button type="button" class="btn btn-primary btn-sm" id='connect-btn'>connect</button>
+              <button type="button" class="btn btn-primary btn-sm" id='robot-fwd'>forward</button>
+            </div>
+            <div class='row'>
+              <button type="button" class="btn btn-primary btn-sm" id='robot-left'>left</button>
+              <button type="button" class="btn btn-primary btn-sm" id='robot-right'>right</button>
+            </div>
+            <div class="row">
+              <button type="button" class="btn btn-primary btn-sm" id='robot-back'>backward</button>
+            </div>
+            <div class="row">
+              <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default" id="mode-auto">Auto</button>
+                <button type="button" class="btn btn-default" id="mode-manual">Manual</button>
+              </div>
+            </div>
           </div>
-          <button type="button" class="btn btn-primary btn-lg" id='connect-btn'>connect</button>
+        </div>
+        <!-- servo control -->
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">Camera Servo Control</div>
+            <div class="panel-body">
+              <form>
+                <input id="camera-tilt" type="text" data-slider-id='camera-tilt-slider' data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="0" data-slider-orientation="vertical"/>
+                <input id="camera-pan" type="text"  data-slider-id='camera-pan-slider' data-slider-min="0" data-slider-max="255" data-slider-step="1" data-slider-value="0"/>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- status -->
       <div class="row">
-        <button type="button" class="btn btn-primary btn-lg" id='robot-fwd'>forward</button>
-        <button type="button" class="btn btn-primary btn-lg" id='robot-back'>backward</button>
-        <button type="button" class="btn btn-primary btn-lg" id='robot-left'>left</button>
-        <button type="button" class="btn btn-primary btn-lg" id='robot-right'>right</button>
-      </div>
-      <div class="row">
-        <button type="button" class="btn btn-primary btn-lg" id='cam-fwd'>forward</button>
-        <button type="button" class="btn btn-primary btn-lg" id='cam-back'>backward</button>
-        <button type="button" class="btn btn-primary btn-lg" id='cam-left'>left</button>
-        <button type="button" class="btn btn-primary btn-lg" id='cam-right'>right</button>
-      </div>
-      <div class="row">
-        <button type="button" class="btn btn-primary btn-lg" id='mode-auto'>auto</button>
-        <button type="button" class="btn btn-primary btn-lg" id='mode-manual'>manual</button>
+        <div class="col-sm-5">
+          <div class="panel panel-default">
+            <div class="panel-heading">Network Status</div>
+            <div class="panel-body">
+              <span class="label label-default" id="heartbeat">Heartbeat</span>
+              <span class="label label-default" id="ip">IP</span>
+              <span class="label label-default" id="port">Port</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <div class="panel panel-default">
+            <div class="panel-heading">Camera Servo Control</div>
+            <div class="panel-body">
+              <span class="label label-default" id="mode">Mode</span>
+              <span class="label label-default" id="state">State</span>
+              <span class="label label-default" id="sign">Sign</span>
+              <span class="label label-default" id="speed">Speed</span>
+              <span class="label label-default" id="resolution">Resolution</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>
   <script> window.$ = $ = jQuery = require('jquery')</script>
   <script>
     require('bootstrap')
+    require('bootstrap-slider')
     require('./assets/event-handler')
     require('./assets/camera-event-handler')
     require('./assets/robot-event-handler')

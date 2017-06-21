@@ -12,10 +12,15 @@ let commandHandler = null;
 app.on('ready', createMainWindow);
 
 function createMainWindow() {
-  mainWindow = new BrowserWindow({ window: 1200, height: 600});
+  mainWindow = new BrowserWindow({ resizable: false});
   mainWindow.loadURL('file://' + __dirname + '/index.html');
   // mainWindow.webContents.openDevTools();
 
+  var screenElectron = electron.screen;
+  var mainScreen = screenElectron.getPrimaryDisplay();
+  var allScreens = screenElectron.getAllDisplays();
+
+  console.log(mainScreen, allScreens);
   mainWindow.on('closed', function () {
     mainWindow = null;
 
