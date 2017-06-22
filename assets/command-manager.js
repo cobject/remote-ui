@@ -1,42 +1,78 @@
 const net = require('net');
-const TCP_PORT = 3000;
-
-// var HOST = '172.20.10.14'; // robot ip
+const settings = require('electron-settings');
 
 class CommandManager {
 	constructor(host) {
 		this.host = host;
-		this.client = new net.Socket();
-		this.client.on('data', this.onData.bind(this));
+		this.port = settings.get('command-port');
+		this.client = null;
 	}
 
 	connect() {
-		this.client.connect(TCP_PORT, this.host, () => {
-			console.log('Connected');
-		});
+		if(this.client === null) {
+			this.client = new net.Socket();
+			this.client.on('close', this.onClose.bind(this));
+			this.client.on('connect', this.onConnect.bind(this));
+			this.client.on('data', this.onData.bind(this));
+			this.client.on('drain', this.onDrain.bind(this));
+			this.client.on('end', this.onEnd.bind(this));
+			this.client.on('error', this.onError.bind(this));
+			this.client.on('lookup', this.onLookup.bind(this));
+			this.client.on('timeout', this.onTimeout.bind(this));
+			this.client.connect(this.port, this.host);
+		}
 	}
 
 	close() {
-		this.client.close();
+		if(this.client !== null) {
+			this.client.end();
+			this.client.destroy();
+			this.client.unref();
+			this.client = null;
+		}
+	}
+
+	write(buf) {
+		if(this.client !== null) {
+			this.client.write(Buffer.from(buf));
+		}
 	}
 
 	registerCommandHandler(handler) {
 		this.handler = handler;
 	}
 
+	onClose() {
+		console.log('cmd, onClose()');
+	}
+
+	onConnect() {
+		console.log("onConnect()");
+	}
+
 	onData(data){
-	  console.log('Received: ', data);
+	  console.log('onData(), data: ', data);
 		this.handler(data);
 	}
 
-	onClose() {
-		console.log('Connection closed');
-	  this.client.end();
-	  this.client.destroy();
+	onDrain(){
+		console.log("onDrain()");
 	}
 
-  write(buf) {
-		this.client.write(Buffer.from(buf));
+	onEnd() {
+		console.log("onEnd()");
+	}
+
+	onError(err) {
+		console.log("onError()", err);
+	}
+
+	onLookup(){
+		console.log("onLookup()");
+	}
+
+	onTimeout() {
+		console.log("onTimeout");
 	}
 }
 

@@ -1,38 +1,45 @@
 const dgram = require('dgram');
 const fs = require('fs');
-const REMOTE_PORT = 3001;
-const LOCAL_PORT = 3100;
 
 class ImageReceiver {
-  constructor(host, window){
+  constructor(host, remotePort, localPort, eventName, window){
     this.host = host;
-    this.port = REMOTE_PORT;
+    this.remotePort = remotePort;
+    this.localPort = localPort;
     this.window = window;
-    this.client = dgram.createSocket('udp4');
-    this.client.on('close', this.onClose.bind(this));
-    this.client.on('error', this.onError.bind(this));
-    this.client.on('message', this.onMessage.bind(this));
-    this.client.on('listening', this.onListening.bind(this));
+    this.client = null;
+    this.eventName = eventName;
   }
 
   bind() {
-    this.client.bind(LOCAL_PORT);
+    if(this.client === null) {
+      this.client = dgram.createSocket('udp4');
+      this.client.on('close', this.onClose.bind(this));
+      this.client.on('error', this.onError.bind(this));
+      this.client.on('message', this.onMessage.bind(this));
+      this.client.on('listening', this.onListening.bind(this));
+      this.client.bind(this.localPort);
+    }
   }
 
   close() {
-    this.client.close();
+    if(this.client !== null) {
+      this.client.close();
+      this.client.unref();
+      this.client = null;
+    }
   }
 
-  onClose(err) {
-    console.log("onClose()");
+  onClose() {
+    console.log("udp, onClose()");
   }
 
   onError(err) {
-
+    console.log("onError()", err);
   }
 
   onMessage(msg, server) {
-    this.window.webContents.send('image:receive', msg);
+    this.window.webContents.send(this.eventName, msg);
     // console.log("file: ", "./dump/" + new Date().getTime());
     // fs.writeFile("./dump/" + new Date().getTime() + ".jpg", msg, function(err){
       // if(err) {

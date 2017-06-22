@@ -1,3 +1,4 @@
 node_modules
 dist
 remote-ui-*
+.DS_Store

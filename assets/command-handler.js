@@ -1,15 +1,11 @@
 const electron = require('electron');
 const CommandManager = require('./command-manager');
 const { ipcMain } = electron;
-const PORT = 3002;
-
-// var HOST = '172.20.10.14'; // robot ip
 
 class CommandHandler {
 	constructor(host, window) {
-		this.host = host;
 		this.window = window;
-		this.commandManager = new CommandManager(this.host);
+		this.commandManager = new CommandManager(host);
 		ipcMain.on('robot:control', this.onHandleRobotCommands.bind(this));
 		ipcMain.on('camera:control', this.onHandleCameraCommands.bind(this));
 		ipcMain.on('mode:control', this.onHandleModeCommands.bind(this));
@@ -40,7 +36,7 @@ class CommandHandler {
 
 	onHandleModeCommands(event, mode) {
 		console.log('onHandleModeCommands: ', mode);
-		this.commandManager.write(new Uint8Array([3, mode]));		
+		this.commandManager.write(new Uint8Array([3, mode]));
 	}
 }
 

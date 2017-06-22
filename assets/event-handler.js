@@ -6,11 +6,19 @@ const TCP_PORT = 3000;
 $('#connect-btn').click(() => {
   $('#ip').html(HOST_IP);
   $('#port').html(TCP_PORT);
-  ipcRenderer.send('connect:request', HOST_IP);
+  ipcRenderer.send('network:connect', HOST_IP);
 });
 
-ipcRenderer.on('image:receive', (event, data) => {
+$('#disconnect-btn').click(() => {
+  ipcRenderer.send('network:disconnect');
+});
+
+ipcRenderer.on('image:camera:receive', (event, data) => {
   $('#camera-img').attr("src", 'data:image/jpeg;base64,' + data.toString('base64'));
+});
+
+ipcRenderer.on('image:debug:receive', (event, data) => {
+  $('#debug-img').attr("src", 'data:image/jpeg;base64,' + data.toString('base64'));
 });
 
 // With JQuery
