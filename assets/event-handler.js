@@ -22,25 +22,31 @@ ipcRenderer.on('image:debug:receive', (event, data) => {
 
 // With JQuery
 $('#camera-pan').slider({
-	formatter: function(value) {
-		return value;
-	}
+  formatter: function(value) {
+    return value;
+  }
 });
 
 $('#camera-pan').slider().on('slideStop', (event) => {
   console.log("pan value: ", event.value);
-  ipcRenderer.send('camera:control', {cmd: 1, value: event.value});
+  ipcRenderer.send('camera:control', {
+    cmd: 1,
+    value: event.value
+  });
 });
 
 // With JQuery
 $("#camera-tilt").slider({
-	reversed : true,
+  reversed: true,
   formatter: function(value) {
-		return value;
+    return value;
   }
 });
 
 $('#camera-tilt').slider().on('slideStop', (event) => {
   console.log("tilt value: ", event.value);
-  ipcRenderer.send('camera:control', {cmd: 2, value: event.value});
+  ipcRenderer.send('camera:control', {
+    cmd: 2,
+    value: event.value
+  });
 });

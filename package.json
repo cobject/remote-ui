@@ -5,6 +5,9 @@
   "main": "main.js",
   "author": "Suhun Kim",
   "homepage": "https://bitbucket.org/5chitect/remote-ui",
+  "jshintConfig": {
+    "esversion": 6
+  },
   "scripts": {
     "test": "jest --coverage",
     "start": "electron .",

@@ -6,7 +6,7 @@ $('#mode-auto').click(() => {
   ipcRenderer.send('mode:control', 1);
 });
 
-$('#mode-manual').click( () => {
+$('#mode-manual').click(() => {
   $('#mode').html("manual");
   ipcRenderer.send('mode:control', 2);
 });

@@ -5,7 +5,7 @@ const settings = require('electron-settings');
 ipcRenderer.on('robot:status', onRobotCommand);
 
 function onRobotCommand(event, data) {
-  switch(data[0]) {
+  switch (data[0]) {
     case 0x01:
       handleRobotStatus(data[1], data[2]);
       break;
@@ -24,7 +24,7 @@ function onRobotCommand(event, data) {
   }
 }
 
-function handleRobotStatus(mode, action){
+function handleRobotStatus(mode, action) {
   console.log("handleRobotStatus(), ", mode, action);
   $('#mode').html(settings.get("mode." + mode));
   $('#action').html(settings.get("action." + action));

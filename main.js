@@ -10,11 +10,11 @@ const PREFERENCE = {
   port: {
     command: 3000,
     data: {
-      remote : {
+      remote: {
         image: 3001,
         debug: 3002
       },
-      local : {
+      local: {
         image: 3101,
         debug: 3102
       }
@@ -47,7 +47,11 @@ app.on('ready', createMainWindow);
 function createMainWindow() {
   initSettings();
 
-  mainWindow = new BrowserWindow({ width: 1280, height: 800, resizable: true});
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 800,
+    resizable: true
+  });
   mainWindow.loadURL('file://' + __dirname + '/index.html');
   // mainWindow.webContents.openDevTools();
 
@@ -63,7 +67,7 @@ function createMainWindow() {
     mainWindow);
   commandHandler = new CommandHandler(settings.get('host'), mainWindow);
 
-  mainWindow.on('closed', function () {
+  mainWindow.on('closed', function() {
     mainWindow = null;
 
     imageReceiver.close();
@@ -93,7 +97,7 @@ ipcMain.on('network:disconnect', (event) => {
 
 function initSettings() {
   // settings.deleteAll();
-  if(settings.has('enabled') === false) {
+  if (settings.has('enabled') === false) {
     settings.setAll(PREFERENCE);
   }
 }
