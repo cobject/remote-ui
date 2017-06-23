@@ -12,7 +12,7 @@ class CommandHandler {
 	}
 
 	start() {
-		this.commandManager.registerCommandHandler(this.onData);
+		this.commandManager.registerCommandHandler(this.onData.bind(this)); // TODO: bind?
 		this.commandManager.connect();
 	}
 
@@ -22,11 +22,13 @@ class CommandHandler {
 
 	onData(data){
 	  console.log('Received: ', data);
+
+		this.window.webContents.send('robot:status', data);
 	}
 
 	onHandleRobotCommands(event, data) {
 		console.log('onHandleRobotCommands: ', data);
-		this.commandManager.write(new Uint8Array([1, data.cmd, data.onOff == true ? 1 : 0]));
+		this.commandManager.write(new Uint8Array([1, data.cmd, data.onOff === true ? 1 : 0]));
 	}
 
 	onHandleCameraCommands(event, data) {

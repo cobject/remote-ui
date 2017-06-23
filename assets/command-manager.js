@@ -4,7 +4,7 @@ const settings = require('electron-settings');
 class CommandManager {
 	constructor(host) {
 		this.host = host;
-		this.port = settings.get('command-port');
+		this.port = settings.get('port.command');
 		this.client = null;
 	}
 
@@ -44,6 +44,7 @@ class CommandManager {
 
 	onClose() {
 		console.log('cmd, onClose()');
+		// TODO: popup
 	}
 
 	onConnect() {

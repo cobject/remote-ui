@@ -4,6 +4,37 @@ const CommandHandler = require('./assets/command-handler');
 const settings = require('electron-settings');
 const { app, BrowserWindow, ipcMain } = electron;
 
+const PREFERENCE = {
+  enabled: true,
+  host: "127.0.0.1",
+  port: {
+    command: 3000,
+    data: {
+      remote : {
+        image: 3001,
+        debug: 3002
+      },
+      local : {
+        image: 3101,
+        debug: 3102
+      }
+    }
+  },
+  mode: {
+    1: "Autonomous",
+    2: "Manual",
+    3: "Suspend"
+  },
+  action: {
+    1: "Line Follow",
+    2: "Sign Detect"
+  },
+  sign: {
+    1: "Left Turn",
+    2: "Right Turn"
+  }
+};
+
 let mainWindow = null;
 let imageReceiver = null;
 let debugReceiver = null;
@@ -20,17 +51,17 @@ function createMainWindow() {
   mainWindow.loadURL('file://' + __dirname + '/index.html');
   // mainWindow.webContents.openDevTools();
 
-  imageReceiver = new ImageReceiver(settings.get('host-ip'),
-    settings.get('remote-image-port'),
-    settings.get('local-image-port'),
+  imageReceiver = new ImageReceiver(settings.get('host'),
+    settings.get('port.data.remote.image'),
+    settings.get('port.data.local.image'),
     'image:camera:receive',
     mainWindow);
-  debugReceiver = new ImageReceiver(settings.get('host-ip'),
-    settings.get('remote-debug-port'),
-    settings.get('local-debug-port'),
+  debugReceiver = new ImageReceiver(settings.get('host'),
+    settings.get('port.data.remote.debug'),
+    settings.get('port.data.local.debug'),
     'image:debug:receive',
     mainWindow);
-  commandHandler = new CommandHandler(settings.get('host-ip'), mainWindow);
+  commandHandler = new CommandHandler(settings.get('host'), mainWindow);
 
   mainWindow.on('closed', function () {
     mainWindow = null;
@@ -47,7 +78,7 @@ function createMainWindow() {
 }
 
 ipcMain.on('network:connect', (event, host) => {
-  console.log('host:', settings.get('host-ip'));
+  console.log('host:', settings.get('host'));
   // console.log(Date.now().toTimeString());
   imageReceiver.bind();
   debugReceiver.bind();
@@ -61,13 +92,8 @@ ipcMain.on('network:disconnect', (event) => {
 });
 
 function initSettings() {
-  if(settings.has('init-settings') === false) {
-    settings.set('command-port', 3000)
-      .set('remote-image-port', 3001)
-      .set('remote-debug-port', 3002)
-      .set('local-image-port', 3101)
-      .set('local-debug-port', 3102)
-      .set('host-ip', "127.0.0.1"/*"172.20.10.14"*/);
-    settings.set('init-settings', true);
+  // settings.deleteAll();
+  if(settings.has('enabled') === false) {
+    settings.setAll(PREFERENCE);
   }
 }

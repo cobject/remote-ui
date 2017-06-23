@@ -1,12 +1,11 @@
 const electron = require('electron');
 const { ipcRenderer } = electron;
-const HOST_IP = "127.0.0.1";
-const TCP_PORT = 3000;
+const settings = require('electron-settings');
 
 $('#connect-btn').click(() => {
-  $('#ip').html(HOST_IP);
-  $('#port').html(TCP_PORT);
-  ipcRenderer.send('network:connect', HOST_IP);
+  $('#ip').html(settings.get('host'));
+  $('#port').html(settings.get('port.command'));
+  ipcRenderer.send('network:connect', settings.get('host'));
 });
 
 $('#disconnect-btn').click(() => {
