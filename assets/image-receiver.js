@@ -1,10 +1,9 @@
 const dgram = require('dgram');
 const fs = require('fs');
+const settings = require('electron-settings');
 
 class ImageReceiver {
-  constructor(host, remotePort, localPort, eventName, window) {
-    this.host = host;
-    this.remotePort = remotePort;
+  constructor(localPort, eventName, window) {
     this.localPort = localPort;
     this.window = window;
     this.client = null;

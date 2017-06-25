@@ -2,9 +2,9 @@ const electron = require('electron');
 const { ipcRenderer } = electron;
 const settings = require('electron-settings');
 
+$('#host').html(settings.get('host'));
+
 $('#connect-btn').click(() => {
-  $('#ip').html(settings.get('host'));
-  $('#port').html(settings.get('port.command'));
   ipcRenderer.send('network:connect', settings.get('host'));
 });
 
@@ -20,7 +20,17 @@ ipcRenderer.on('image:debug:receive', (event, data) => {
   $('#debug-img').attr("src", 'data:image/jpeg;base64,' + data.toString('base64'));
 });
 
-// With JQuery
+ipcRenderer.on('host:change', () => {
+  $('#host').html(settings.get('host'));
+});
+
+ipcRenderer.on('network:status', (event, data) => {
+  if(data == 1) {
+    $('#ip').html(settings.get('host'));
+    $('#port').html(settings.get('port.command'));
+  }
+});
+
 $('#camera-pan').slider({
   formatter: function(value) {
     return value;

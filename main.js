@@ -2,11 +2,29 @@ const electron = require('electron');
 const ImageReceiver = require('./assets/image-receiver');
 const CommandHandler = require('./assets/command-handler');
 const settings = require('electron-settings');
-const { app, BrowserWindow, ipcMain } = electron;
+const { app, BrowserWindow, ipcMain, Menu, dialog } = electron;
+
+let template = [{
+  label: 'Settings',
+  submenu: [{
+    label: 'localhost',
+    click: () => {
+      settings.set('host', "127.0.0.1");
+      mainWindow.webContents.send('host:change');
+    }
+  }, {
+    label: '172.20.10.14',
+    click: () => {
+      settings.set('host', "172.20.10.14");
+      mainWindow.webContents.send('host:change');
+    }
+  }]
+}];
 
 const PREFERENCE = {
   enabled: true,
-  host: "127.0.0.1",
+  // host: "127.0.0.1",
+  host: "172.20.10.14",
   port: {
     command: 3000,
     data: {
@@ -32,6 +50,13 @@ const PREFERENCE = {
   sign: {
     1: "Left Turn",
     2: "Right Turn"
+  },
+  persist: {
+    mode: -1,
+    action: -1,
+    sign: -1,
+    speed: 0,
+    resolution: 0
   }
 };
 
@@ -47,25 +72,24 @@ app.on('ready', createMainWindow);
 function createMainWindow() {
   initSettings();
 
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+
   mainWindow = new BrowserWindow({
     width: 1280,
     height: 800,
     resizable: true
   });
   mainWindow.loadURL('file://' + __dirname + '/index.html');
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
-  imageReceiver = new ImageReceiver(settings.get('host'),
-    settings.get('port.data.remote.image'),
-    settings.get('port.data.local.image'),
+  imageReceiver = new ImageReceiver(settings.get('port.data.local.image'),
     'image:camera:receive',
     mainWindow);
-  debugReceiver = new ImageReceiver(settings.get('host'),
-    settings.get('port.data.remote.debug'),
-    settings.get('port.data.local.debug'),
+  debugReceiver = new ImageReceiver(settings.get('port.data.local.debug'),
     'image:debug:receive',
     mainWindow);
-  commandHandler = new CommandHandler(settings.get('host'), mainWindow);
+  commandHandler = new CommandHandler(mainWindow);
 
   mainWindow.on('closed', function() {
     mainWindow = null;
@@ -100,4 +124,21 @@ function initSettings() {
   if (settings.has('enabled') === false) {
     settings.setAll(PREFERENCE);
   }
+}
+
+if (process.platform === 'darwin') {
+  template.unshift({
+    label: app.getName(),
+    submenu: [
+      {role: 'about'},
+      {type: 'separator'},
+      {role: 'services', submenu: []},
+      {type: 'separator'},
+      {role: 'hide'},
+      {role: 'hideothers'},
+      {role: 'unhide'},
+      {type: 'separator'},
+      {role: 'quit'}
+    ]
+  });
 }

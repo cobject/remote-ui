@@ -1,10 +1,17 @@
 const net = require('net');
 const settings = require('electron-settings');
+const electron = require('electron');
+const { dialog } = electron;
+
+const options = {
+  type: 'info',
+  title: 'Network Connection Fails',
+  message: "Re-connect?",
+  buttons: ['Yes', 'No']
+};
 
 class CommandManager {
-  constructor(host) {
-    this.host = host;
-    this.port = settings.get('port.command');
+  constructor() {
     this.client = null;
   }
 
@@ -19,7 +26,7 @@ class CommandManager {
       this.client.on('error', this.onError.bind(this));
       this.client.on('lookup', this.onLookup.bind(this));
       this.client.on('timeout', this.onTimeout.bind(this));
-      this.client.connect(this.port, this.host);
+      this.client.connect(settings.get('port.command'), settings.get('host'));
     }
   }
 
@@ -42,18 +49,22 @@ class CommandManager {
     this.handler = handler;
   }
 
-  onClose() {
-    console.log('cmd, onClose()');
+  onClose(err) {
+    console.log('cmd, onClose()', err);
+    this.handler("network:status", 0/* disconnect */);
     // TODO: popup
+    // dialog.showMessageBox(options, function(index) {
+    // });
   }
 
   onConnect() {
     console.log("onConnect()");
+    this.handler("network:status", 1/* connect */);
   }
 
   onData(data) {
     console.log('onData(), data: ', data);
-    this.handler(data);
+    this.handler('robot:status', data);
   }
 
   onDrain() {

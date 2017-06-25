@@ -3,9 +3,9 @@ const CommandManager = require('./command-manager');
 const { ipcMain } = electron;
 
 class CommandHandler {
-  constructor(host, window) {
+  constructor(window) {
     this.window = window;
-    this.commandManager = new CommandManager(host);
+    this.commandManager = new CommandManager();
     ipcMain.on('robot:control', this.onHandleRobotCommands.bind(this));
     ipcMain.on('camera:control', this.onHandleCameraCommands.bind(this));
     ipcMain.on('mode:control', this.onHandleModeCommands.bind(this));
@@ -20,10 +20,10 @@ class CommandHandler {
     this.commandManager.close();
   }
 
-  onData(data) {
+  onData(event, data) {
     console.log('Received: ', data);
 
-    this.window.webContents.send('robot:status', data);
+    this.window.webContents.send(event, data);
   }
 
   onHandleRobotCommands(event, data) {

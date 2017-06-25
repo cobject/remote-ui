@@ -14,7 +14,7 @@ function onRobotCommand(event, data) {
       handleSignInfo(data[1]);
       break;
 
-    case 0x02:
+    case 0x03:
       handleDebugInfo(data);
       break;
 
@@ -31,11 +31,29 @@ function handleRobotStatus(mode, action) {
 }
 
 function handleSignInfo(sign) {
-  console.log("handleDebugInfo(), sign = ", sign);
+  console.log("handleSignInfo(), sign = ", sign);
   $('#sign').html(settings.get("sign." + sign));
 }
 
 function handleDebugInfo(data) {
   console.log("handleDebugInfo(), data = ", data);
-  // TODO
+  switch(data[1]){
+    case 0x01:  handleCameraServo(data);    break;
+    case 0x02:  handleWheelServo(data);     break;
+    case 0x03:  handleSonarRange(data);     break;
+    default:
+      console.log('handleDebugInfo(), invalid id: ', data[1]);
+  }
+
+  function handleCameraServo(data) {
+    $(data[2] == 1 ?  '#camera-servo-pan' : '#camera-servo-tilt').html(data[3]);
+  }
+
+  function handleWheelServo(data) {
+    $(data[2] == 1 ?  '#wheel-servo-left' : '#wheel-servo-right').html(data[3]);
+  }
+
+  function handleSonarRange(data) {
+    $('#sonar-range').html(data[2]);
+  }
 }

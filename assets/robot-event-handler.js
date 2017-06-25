@@ -1,34 +1,72 @@
 const electron = require('electron');
 const { ipcRenderer } = electron;
 
+$(document).keydown(function(e) {
+  handleKey(e.key, true);
+});
+
+$(document).keyup(function(e) {
+  handleKey(e.key, false);
+});
+
+function handleKey(key, flag) {
+  switch(key) {
+    case "ArrowUp":     goForward(flag);    break;
+    case "ArrowDown":   goBackward(flag);   break;
+    case "ArrowLeft":   turnLeft(flag);     break;
+    case "ArrowRight":  turnRight(flag);    break;
+    default:
+      break;
+  }
+}
+$(document).keyup(function(e) {
+  console.log("up", e.key);
+});
+
+function goForward(flag) {
+  ipcRenderer.send('robot:control', {cmd: 1, onOff: flag});
+}
+
+function goBackward(flag) {
+  ipcRenderer.send('robot:control', {cmd: 2, onOff: flag});
+}
+
+function turnLeft(flag) {
+  ipcRenderer.send('robot:control', {cmd: 3, onOff: flag});
+}
+
+function turnRight(flag) {
+  ipcRenderer.send('robot:control', {cmd: 4, onOff: flag});
+}
+
 $('#robot-fwd').mousedown(() => {
-  ipcRenderer.send('robot:control', {cmd: 1, onOff: true});
+  goForward(true);
 });
 
 $('#robot-fwd').mouseup(() => {
-  ipcRenderer.send('robot:control', {cmd: 1, onOff: false});
+  goForward(false);
 });
 
 $('#robot-back').mousedown(() => {
-  ipcRenderer.send('robot:control', {cmd: 2, onOff: true})
+  goBackward(true);
 });
 
 $('#robot-back').mouseup(() => {
-  ipcRenderer.send('robot:control', {cmd: 2, onOff: false});
+  goBackward(false);
 });
 
 $('#robot-left').mousedown(() => {
-  ipcRenderer.send('robot:control', {cmd: 3, onOff: true});
+  turnLeft(true);
 });
 
 $('#robot-left').mouseup(() => {
-  ipcRenderer.send('robot:control', {cmd: 3, onOff: false});
+  turnLeft(false);
 });
 
 $('#robot-right').mousedown(() => {
-  ipcRenderer.send('robot:control', {cmd: 4, onOff: true});
+  turnRight(true);
 });
 
 $('#robot-right').mouseup(() => {
-  ipcRenderer.send('robot:control', {cmd: 4, onOff: false});
+  turnRight(false);
 });
