@@ -1,5 +1,5 @@
 const electron = require('electron');
-const { ipcMain } = electron;
+const { ipcMain, app } = electron;
 const dgram = require('dgram');
 const fs = require('fs');
 const settings = require('electron-settings');
@@ -34,6 +34,15 @@ class ImageReceiver {
     }
   }
 
+  writeFile(dir, msg) {
+    fs.writeFile(dir + new Date().getTime() + ".jpg", msg, (err) => {
+      // fs.writeFile("./dump/" + new Date().getTime() + ".jpg", msg, {mode: 'w'}, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  }
+
   onClose() {
     console.log("udp, onClose()");
   }
@@ -44,18 +53,24 @@ class ImageReceiver {
 
   onMessage(msg, server) {
     this.window.webContents.send(this.eventName, msg);
+    var dumpDir = app.getPath('userData') + "/dump/";
+
     if (this.record == 'start') {
-      // console.log("file: ", "./dump/" + new Date().getTime());
-      fs.writeFile("./dump/" + new Date().getTime() + ".jpg", msg, (err) => {
-        if (err) {
-          console.log(err);
+      fs.stat(dumpDir, (err, stats) => {
+        if(stats === undefined) {
+          console.log("making dump dir");
+          fs.mkdir(dumpDir, () => {
+            this.writeFile(dumpDir, msg);
+          });
+        } else {
+          this.writeFile(dumpDir, msg);
         }
       });
     } else if (this.record == 'delete-all') {
-      fs.readdir("./dump/", (err, files) => {
+      fs.readdir(dumpDir, (err, files) => {
         if (err) console.log(err);
         files.forEach( (file) => {
-          fs.unlinkSync("./dump/" + file);
+          fs.unlinkSync(dumpDir + file);
         });
       });
     }
@@ -65,6 +80,7 @@ class ImageReceiver {
   onListening(e) {
     console.log("listening...");
   }
+
 
 }
 

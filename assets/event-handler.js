@@ -2,10 +2,12 @@ const electron = require('electron');
 const { ipcRenderer } = electron;
 const settings = require('electron-settings');
 
-$('#host').html(settings.get('host'));
+$('#host').val(settings.get('host'));
 
 $('#connect-btn').click(() => {
-  ipcRenderer.send('network:connect', settings.get('host'));
+  var host = $('#host').val();
+  settings.set('host', host);
+  ipcRenderer.send('network:connect', host);
 });
 
 $('#disconnect-btn').click(() => {

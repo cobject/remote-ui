@@ -1,6 +1,6 @@
 {
   "name": "remote-ui",
-  "version": "0.0.1",
+  "version": "0.2.1",
   "description": "remote ui for self-driving robot",
   "main": "main.js",
   "author": "Suhun Kim",
@@ -11,6 +11,7 @@
   "scripts": {
     "test": "jest --coverage",
     "start": "electron .",
+    "dist": "electron-packager . --overwrite --platform=linux --arch=x64 --electron-version='1.6.11' --prune=false --out=dist",
     "static": "jshint --reporter node_modules/jshint-html-reporter/reporter.js main.js > report.html"
   },
   "dependencies": {
