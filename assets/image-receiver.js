@@ -1,3 +1,5 @@
+const electron = require('electron');
+const { ipcMain } = electron;
 const dgram = require('dgram');
 const fs = require('fs');
 const settings = require('electron-settings');
@@ -18,6 +20,9 @@ class ImageReceiver {
       this.client.on('message', this.onMessage.bind(this));
       this.client.on('listening', this.onListening.bind(this));
       this.client.bind(this.localPort);
+      ipcMain.on('image:record', (event, flag) => {
+        this.record = flag;
+      });
     }
   }
 
@@ -39,12 +44,21 @@ class ImageReceiver {
 
   onMessage(msg, server) {
     this.window.webContents.send(this.eventName, msg);
-    // console.log("file: ", "./dump/" + new Date().getTime());
-    // fs.writeFile("./dump/" + new Date().getTime() + ".jpg", msg, function(err){
-    // if(err) {
-    // console.log(err);
-    //   }
-    // });
+    if (this.record == 'start') {
+      // console.log("file: ", "./dump/" + new Date().getTime());
+      fs.writeFile("./dump/" + new Date().getTime() + ".jpg", msg, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    } else if (this.record == 'delete-all') {
+      fs.readdir("./dump/", (err, files) => {
+        if (err) console.log(err);
+        files.forEach( (file) => {
+          fs.unlinkSync("./dump/" + file);
+        });
+      });
+    }
   }
 
 

@@ -12,6 +12,18 @@ $('#disconnect-btn').click(() => {
   ipcRenderer.send('network:disconnect');
 });
 
+$('#record-start').click(() => {
+  ipcRenderer.send('image:record', 'start');
+});
+
+$('#record-stop').click(() => {
+  ipcRenderer.send('image:record', 'stop');
+});
+
+$('#record-delete-all').click(() => {
+  ipcRenderer.send('image:record', 'delete-all');
+});
+
 ipcRenderer.on('image:camera:receive', (event, data) => {
   $('#camera-img').attr("src", 'data:image/jpeg;base64,' + data.toString('base64'));
 });
@@ -45,7 +57,6 @@ $('#camera-pan').slider().on('slideStop', (event) => {
   });
 });
 
-// With JQuery
 $("#camera-tilt").slider({
   reversed: true,
   formatter: function(value) {
@@ -59,4 +70,10 @@ $('#camera-tilt').slider().on('slideStop', (event) => {
     cmd: 2,
     value: event.value
   });
+});
+
+$("#record-image").slider({
+  formatter: function(value) {
+    return value;
+  }
 });

@@ -81,7 +81,7 @@ function createMainWindow() {
     resizable: true
   });
   mainWindow.loadURL('file://' + __dirname + '/index.html');
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   imageReceiver = new ImageReceiver(settings.get('port.data.local.image'),
     'image:camera:receive',
