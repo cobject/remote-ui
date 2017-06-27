@@ -2,10 +2,12 @@ const electron = require('electron');
 const { ipcRenderer } = electron;
 
 $(document).keydown(function(e) {
+  e.preventDefault();
   handleKey(e.key, true);
 });
 
 $(document).keyup(function(e) {
+  e.preventDefault();
   handleKey(e.key, false);
 });
 

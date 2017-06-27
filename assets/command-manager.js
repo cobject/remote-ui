@@ -1,14 +1,6 @@
 const net = require('net');
 const settings = require('electron-settings');
 const electron = require('electron');
-const { dialog } = electron;
-
-const options = {
-  type: 'info',
-  title: 'Network Connection Fails',
-  message: "Re-connect?",
-  buttons: ['Yes', 'No']
-};
 
 class CommandManager {
   constructor() {
@@ -52,9 +44,6 @@ class CommandManager {
   onClose(err) {
     console.log('cmd, onClose()', err);
     this.handler("network:status", 0/* disconnect */);
-    // TODO: popup
-    // dialog.showMessageBox(options, function(index) {
-    // });
   }
 
   onConnect() {

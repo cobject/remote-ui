@@ -38,25 +38,12 @@ const PREFERENCE = {
       }
     }
   },
-  mode: {
-    1: "Autonomous",
-    2: "Manual",
-    3: "Suspend"
-  },
-  action: {
-    1: "Line Follow",
-    2: "Sign Detect"
-  },
-  sign: {
-    1: "Left Turn",
-    2: "Right Turn"
-  },
   persist: {
-    mode: -1,
-    action: -1,
-    sign: -1,
-    speed: 0,
-    resolution: 0
+    network: "disconnect",
+    mode: null,
+    action: null,
+    sign: null,
+    speed: -1,
   }
 };
 
@@ -72,8 +59,8 @@ app.on('ready', createMainWindow);
 function createMainWindow() {
   initSettings();
 
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
+  // const menu = Menu.buildFromTemplate(template);
+  // Menu.setApplicationMenu(menu);
 
   mainWindow = new BrowserWindow({
     width: 1280,
@@ -124,6 +111,12 @@ function initSettings() {
   if (settings.has('enabled') === false) {
     settings.setAll(PREFERENCE);
   }
+  // default value
+  settings.set('persist.network', "disconnect");
+  settings.set('persist.mode', null);
+  settings.set('persist.action', null);
+  settings.set('persist.sign', null);
+  settings.set('persist.speed', -1);
 }
 
 if (process.platform === 'darwin') {

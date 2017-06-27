@@ -4,6 +4,14 @@ const settings = require('electron-settings');
 
 $('#host').val(settings.get('host'));
 
+$('#localhost').click(() => {
+  $('#host').val("localhost");
+});
+
+$('#robot-ip').click(() => {
+  $('#host').val("172.20.10.14");
+});
+
 $('#connect-btn').click(() => {
   var host = $('#host').val();
   settings.set('host', host);
@@ -12,6 +20,10 @@ $('#connect-btn').click(() => {
 
 $('#disconnect-btn').click(() => {
   ipcRenderer.send('network:disconnect');
+});
+
+$('#power-off').click(() => {
+  ipcRenderer.send('power:off');
 });
 
 $('#record-start').click(() => {

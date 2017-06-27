@@ -10,143 +10,229 @@
 
 <body>
   <div class="container">
-    <div class="col-sm-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Camera Image
+    <div class="row">
+      <div class="col-sm-4">
+        <!-- Camera Image -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Camera Image
+          </div>
+          <div class="panel-body">
+            <img src="./assets/img/noimage.png" id="camera-img" />
+          </div>
         </div>
-        <div class="panel-body">
-          <img src="./assets/img/320x240.png" id="camera-img" />
+        <!-- Debug Image -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapse-debug-img">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Debug Image
+              </a>
+            </div>
+          </div>
+          <div id="collapse-debug-img" class="panel-collapse collapse in">
+            <div class="panel-body">
+              <img src="./assets/img/noimage.png" id="debug-img" />
+            </div>
+          </div>
+        </div>
+        <!-- Dump Image -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapse-dump-img">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Dump Image
+              </a>
+            </div>
+          </div>
+          <div id="collapse-dump-img" class="panel-collapse collapse in">
+            <ul class="list-group">
+              <li class="list-group-item">Dump Image
+                <div class="btn-group" role="group" aria-label="...">
+                  <button type="button" class="btn btn-default" id="record-start">
+                    <span class="glyphicon glyphicon-record" aria-hidden="true"></span> Record
+                  </button>
+                  <button type="button" class="btn btn-default" id="record-stop">
+                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop
+                  </button>
+                  <button type="button" class="btn btn-default" id="record-delete-all">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </button>
+                </div>
+                <br />
+                <br />
+                <img src="./assets/img/noimage.png" id="dump-img" />
+                <form>
+                  <input id="record-image" type="text" size="1100" data-slider-id="record-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
+                </form>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Debug Image
+      <div class="col-sm-5">
+        <div class="panel panel-default">
+          <div class="panel-heading"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Network Control Panel </div>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div class="input-group">
+                <input type="text" class="form-control" size="10" placeholder="Host IP" id="host">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Host <span class="caret"></span></button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a href="#" id="robot-ip">172.20.10.14</a></li>
+                    <li><a href="#" id="localhost">localhost</a></li>
+                  </ul>
+                  <button type="button" class="btn btn-default" id="connect-btn">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="btn btn-default" id="disconnect-btn">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                  </button>
+                </span>
+              </div>
+            </li>
+          </ul>
+          <div class="panel-footer">
+            <span class="label label-default" id="heartbeat">Heartbeat</span>
+            <span class="label label-default" id="ip">IP</span>
+            <span class="label label-default" id="port">Port</span>
+          </div>
         </div>
-        <div class="panel-body">
-          <img src="./assets/img/320x240.png" id="debug-img" />
-        </div>
-      </div>
-    </div>
 
-    <div class="col-sm-5">
-      <div class="panel panel-default">
-        <div class="panel-heading"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Robot Control Panel </div>
-        <ul class="list-group">
-          <li class="list-group-item">Network
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Host IP" id="host">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" id="connect-btn">
-                  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+        <div class="panel panel-default">
+          <div class="panel-heading"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Robot Control Panel </div>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <button type="button" class="btn btn-default" id="power-off">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Off
+              </button>
+              <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default" id="mode-auto">
+                  <span class="glyphicon glyphicon-random" aria-hidden="true"></span> Auto
                 </button>
-                <button type="button" class="btn btn-default" id="disconnect-btn">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                <button type="button" class="btn btn-default" id="mode-manual">
+                  <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Manual
                 </button>
-                <button type="button" class="btn btn-default" id="power-off">
-                  <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <button type="button" class="btn btn-default" id="robot-left">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+              </button>
+              <div class="btn-group-vertical" role="group" aria-label="...">
+                <button type="button" class="btn btn-default" id="robot-fwd">
+                  <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
                 </button>
-              </span>
-            </div>
-          </li>
-          <li class="list-group-item">Robot Control
-            <button type="button" class="btn btn-default" id="robot-left">
-              <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-            </button>
-            <div class="btn-group-vertical" role="group" aria-label="...">
-              <button type="button" class="btn btn-default" id="robot-fwd">
-                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                <button type="button" class="btn btn-default" id="robot-back">
+                  <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                </button>
+              </div>
+              <button type="button" class="btn btn-default" id="robot-right">
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
               </button>
-              <button type="button" class="btn btn-default" id="robot-back">
-                <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-              </button>
-            </div>
-            <button type="button" class="btn btn-default" id="robot-right">
-              <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-            </button>
-          </li>
-          <li class="list-group-item">Camera Control
-            <form>
-              <input id="camera-pan" type="text" size="1100" data-slider-id="camera-pan-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
-              <input id="camera-tilt" type="text" size="1100" data-slider-id="camera-tilt-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
-            </form>
-          </li>
-          <li class="list-group-item">Mode
-            <div class="btn-group" role="group" aria-label="...">
-              <button type="button" class="btn btn-default" id="mode-auto">
-                <span class="glyphicon glyphicon-random" aria-hidden="true"></span> Auto
-              </button>
-              <button type="button" class="btn btn-default" id="mode-manual">
-                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Manual
-              </button>
-            </div>
-          </li>
-          <li class="list-group-item">Dump Image
-            <div class="btn-group" role="group" aria-label="...">
-              <button type="button" class="btn btn-default" id="record-start">
-                <span class="glyphicon glyphicon-record" aria-hidden="true"></span> Record
-              </button>
-              <button type="button" class="btn btn-default" id="record-stop">
-                <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop
-              </button>
-              <button type="button" class="btn btn-default" id="record-delete-all">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-              </button>
-            </div>
-            <br />
-            <br />
-            <img src="./assets/img/320x240.png" id="dump-img" />
-            <form>
-              <input id="record-image" type="text" size="1100" data-slider-id="record-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
-            </form>
-          </li>
-        </ul>
-        <div class="panel-footer">
-          <span class="label label-default" id="heartbeat">Heartbeat</span>
-          <span class="label label-default" id="ip">IP</span>
-          <span class="label label-default" id="port">Port</span>
+              <!-- <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-action"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> Action
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdown-action">
+                  <li><a href="#">Ball</a></li>
+                  <li><a href="#">Go</a></li>
+                  <li><a href="#">Left 45</a></li>
+                  <li><a href="#">Left 90</a></li>
+                  <li><a href="#">Push Can</a></li>
+                  <li><a href="#">Right 45</a></li>
+                  <li><a href="#">Right 90</a></li>
+                  <li><a href="#">Stop</a></li>
+                  <li><a href="#">Straight</a></li>
+                  <li><a href="#">Turn Around</a></li>
+                </ul>
+              </div> -->
+            </li>
+            <li class="list-group-item">Camera Control
+              <form>
+                <input id="camera-pan" type="text" size="1100" data-slider-id="camera-pan-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
+                <input id="camera-tilt" type="text" size="1100" data-slider-id="camera-tilt-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- -->
+      <div class="col-sm-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Robot Status Panel
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Mode <span class="badge" id="mode">Manual</span>
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Action <span class="badge" id="action">None</span>
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Sign <span class="badge" id="sign">No Sign</span>
+              <br />
+              <img src="./assets/img/nosign.png" id="sign-image" width="50%" height="50%" />
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Speed <span class="badge" id="speed">0</span>
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Pan angle <span class="badge" id="pan">0</span>
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Tilt angle <span class="badge" id="tilt">0</span>
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Left wheel speed <span class="badge" id="left">0</span>
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Right wheel speed <span class="badge" id="right">0</span>
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Sonar Range <span class="badge" id="range">0</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-    <div class="col-sm-3">
+    <div class="row">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Robot Status Panel
+          <div class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#table-scroll">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Debug Logs
+            </a>
+          </div>
         </div>
-        <ul class="list-group">
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Mode <span class="badge" id="mode">Manual</span>
-          </li>
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Action <span class="badge" id="action">None</span>
-          </li>
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Sign <span class="badge" id="sign">No Sign</span>
-            <br />
-            <img src="./assets/sign/arrowB.jpg" id="sign-image" width="30%" height="30%" />
-          </li>
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Speed <span class="badge" id="speed">0</span>
-          </li>
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Resolution <span class="badge" id="resolution">320x240</span>
-          </li>
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Pan angle <span class="badge" id="camera-servo-pan">0</span>
-          </li>
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Tilt angle <span class="badge" id="camera-servo-tilt">0</span>
-          </li>
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Left wheel speed <span class="badge" id="wheel-servo-left">0</span>
-          </li>
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Right wheel speed <span class="badge" id="wheel-servo-right">0</span>
-          </li>
-          <li class="list-group-item">
-            <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Sonar Range <span class="badge" id="sonar-range">0</span>
-          </li>
-        </ul>
+        <div id="table-scroll">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>John</td>
+              </tr>
+              <tr>
+                <td>John</td>
+              </tr>
+              <tr>
+                <td>John</td>
+              </tr>
+              <tr>
+                <td>John</td>
+              </tr>
+              <tr>
+                <td>John</td>
+              </tr>
+              <tr>
+                <td>John</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

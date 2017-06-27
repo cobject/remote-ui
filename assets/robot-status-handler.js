@@ -7,15 +7,15 @@ ipcRenderer.on('robot:status', onRobotCommand);
 function onRobotCommand(event, data) {
   switch (data[0]) {
     case 0x01:
-      handleRobotStatus(data[1], data[2]);
+      handleRobotStatus(data);
       break;
 
     case 0x02:
-      handleSignInfo(data[1]);
+      handleDebugLog(data);
       break;
 
-    case 0x03:
-      handleDebugInfo(data);
+    case 0x06:
+      handleHeartbeat();
       break;
 
     default:
@@ -24,36 +24,48 @@ function onRobotCommand(event, data) {
   }
 }
 
-function handleRobotStatus(mode, action) {
-  console.log("handleRobotStatus(), ", mode, action);
-  $('#mode').html(settings.get("mode." + mode));
-  $('#action').html(settings.get("action." + action));
+function handleRobotStatus(data) {
+  console.log("handleRobotStatus(), ", data);
+  var length = data.readUInt32LE(1);
+  // console.log("length====", length);
+  var str = data.toString('utf8', 5);
+  var tokens = str.split(";");
+  tokens.forEach( (token) => {
+    console.log(token);
+    var map = token.split("=");
+    console.log("key=", map[0], " ,value=", map[1]);
+    switch (map[0]) {
+      case "action":
+        if(map[1] == 'Manual') {
+          $("#mode").html('Manual');
+        } else if(map[1] == 'Suspend') {
+          $("#mode").html('Suspend');
+        } else {
+          $("#mode").html('Auto');
+        }
+        $("#" + map[0]).html(map[1]);
+        break;
+      case "sign":
+        $("#" + map[0]).html(map[1]);
+        $('#sign-image').src("./sign/" + map[1] + ".jpg");
+        break;
+      case "pan":
+      case "tilt":
+      case "left":
+      case "right":
+      case "sonar":
+        $("#" + map[0]).html(map[1]);
+        break;
+      default:
+        console.log("invalid status: ", map[0]);
+        break;
+    }
+  });
 }
 
-function handleSignInfo(sign) {
-  console.log("handleSignInfo(), sign = ", sign);
-  $('#sign').html(settings.get("sign." + sign));
-}
-
-function handleDebugInfo(data) {
+function handleDebugLog(data) {
   console.log("handleDebugInfo(), data = ", data);
-  switch(data[1]){
-    case 0x01:  handleCameraServo(data);    break;
-    case 0x02:  handleWheelServo(data);     break;
-    case 0x03:  handleSonarRange(data);     break;
-    default:
-      console.log('handleDebugInfo(), invalid id: ', data[1]);
-  }
-
-  function handleCameraServo(data) {
-    $(data[2] == 1 ?  '#camera-servo-pan' : '#camera-servo-tilt').html(data[3]);
-  }
-
-  function handleWheelServo(data) {
-    $(data[2] == 1 ?  '#wheel-servo-left' : '#wheel-servo-right').html(data[3]);
-  }
-
-  function handleSonarRange(data) {
-    $('#sonar-range').html(data[2]);
-  }
+  var length = data.readUInt32LE(1);
+  var str = data.toString('utf8', 5);
+  $("tbody").add( "<tr><td>" + str + "</td></tr>");
 }
