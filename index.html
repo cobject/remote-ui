@@ -14,16 +14,34 @@
     <div class="row">
       <div class="col-sm-4">
         <!-- Camera Image -->
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
             <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Camera Image
           </div>
-          <div class="panel-body">
-            <img src="./assets/img/noimage.png" id="camera-img" />
-          </div>
+          <ul class="list-group">
+            <li class="list-group-item" align="center">
+              <img src="./assets/img/noimage.png" id="camera-img" />
+              <input id="camera-tilt" type="text" data-slider-id="camera-tilt-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" data-slider-orientation="vertical" />
+              <div class="row" align="center">
+                <input id="camera-pan" type="text" data-slider-id="camera-pan-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
+              </div>
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Pan angle <span class="badge" id="pan">0</span>
+            </li>
+            <li class="list-group-item">
+              <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Tilt angle <span class="badge" id="tilt">0</span>
+            </li>
+          </ul>
         </div>
+
+
+      </div>
+
+      <div class="col-sm-4">
+
         <!-- Debug Image -->
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
             <div class="panel-title">
               <a data-toggle="collapse" data-parent="#accordion" href="#collapse-debug-img">
@@ -31,14 +49,14 @@
               </a>
             </div>
           </div>
-          <div id="collapse-debug-img" class="panel-collapse collapse in">
-            <div class="panel-body">
+          <div id="collapse-debug-img" class="panel-collapse collapse out">
+            <div class="panel-body" align="center">
               <img src="./assets/img/noimage.png" id="debug-img" />
             </div>
           </div>
         </div>
         <!-- Dump Image -->
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
             <div class="panel-title">
               <a data-toggle="collapse" data-parent="#accordion" href="#collapse-dump-img">
@@ -46,34 +64,39 @@
               </a>
             </div>
           </div>
-          <div id="collapse-dump-img" class="panel-collapse collapse in">
-            <ul class="list-group">
-              <li class="list-group-item">Dump Image
-                <div class="btn-group" role="group" aria-label="...">
-                  <button type="button" class="btn btn-default" id="record-start">
-                    <span class="glyphicon glyphicon-record" aria-hidden="true"></span> Record
-                  </button>
-                  <button type="button" class="btn btn-default" id="record-stop">
-                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop
-                  </button>
-                  <button type="button" class="btn btn-default" id="record-delete-all">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                  </button>
-                </div>
-                <br />
-                <br />
+          <div id="collapse-dump-img" class="panel-collapse collapse out">
+            <ul class="list-group" align="center">
+              <li class="list-group-item">
                 <img src="./assets/img/noimage.png" id="dump-img" />
+                <input id="dump-slider" type="text" data-slider-id="camera-pan-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
+                <br />
+                <br />
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Folder name" id="dump-folder">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" id="record-start">
+                        <span class="glyphicon glyphicon-record" aria-hidden="true"></span> Record
+                      </button>
+                      <button type="button" class="btn btn-default" id="record-stop">
+                        <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop
+                      </button>
+                      <button type="button" class="btn btn-default" id="record-delete-all">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                      </button>
+                  </span>
+                </div>
                 <!-- <form>
-                  <input id="record-image" type="text" size="1100" data-slider-id="record-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
-                </form> -->
-              </li>
-            </ul>
-          </div>
+                <input id="record-image" type="text" size="1100" data-slider-id="record-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
+              </form> -->
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="col-sm-5">
-        <div class="panel panel-default">
-          <div class="panel-heading"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Network Control Panel </div>
+      </div>
+      <!-- robot -->
+      <div class="col-sm-4">
+        <div class="panel panel-info">
+          <div class="panel-heading"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Robot Control Panel </div>
           <ul class="list-group">
             <li class="list-group-item">
               <div class="input-group">
@@ -93,18 +116,17 @@
                 </span>
               </div>
             </li>
-          </ul>
-          <div class="panel-footer">
-            <span class="label label-default" id="heartbeat">Heartbeat</span>
-            <span class="label label-default" id="network-status">disconnected</span>
-            <span class="label label-default" id="ip">IP</span>
-            <span class="label label-default" id="port">Port</span>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Robot Control Panel </div>
-          <ul class="list-group">
+              <!-- command -->
+            <li class="list-group-item">
+              <div class="input-group">
+                <input type="text" class="form-control" size="10" placeholder="Enter command" id="debug-cmd-txt">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" id="debug-cmd">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                  </button>
+                </span>
+              </div>
+            </li>
             <li class="list-group-item">
               <button type="button" class="btn btn-default" id="power-off">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Off
@@ -133,43 +155,16 @@
               <button type="button" class="btn btn-default" id="robot-right">
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
               </button>
-                <!-- <input type="range" min="10" max="1000" step="10" value="300" data-orientation="vertical"> -->
-                <!-- <input type="range" min="10" max="1000" step="10" value="300" data-orientation="horizontal"> -->
-              <!-- <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-action"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> Action
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdown-action">
-                  <li><a href="#">Ball</a></li>
-                  <li><a href="#">Go</a></li>
-                  <li><a href="#">Left 45</a></li>
-                  <li><a href="#">Left 90</a></li>
-                  <li><a href="#">Push Can</a></li>
-                  <li><a href="#">Right 45</a></li>
-                  <li><a href="#">Right 90</a></li>
-                  <li><a href="#">Stop</a></li>
-                  <li><a href="#">Straight</a></li>
-                  <li><a href="#">Turn Around</a></li>
-                </ul>
-              </div> -->
-            </li>
-            <li class="list-group-item">Camera Control
-              <div class="row" align="center">
-                <img src="./assets/img/camera.png" style="width:192px; height:192px" id="aaaa" />
-                <input id="camera-tilt" type="text" data-slider-id="camera-tilt-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" data-slider-orientation="vertical"/>
-              </div>
-              <div class="row" align="center">
-                <input id="camera-pan" type="text" data-slider-id="camera-pan-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
-              </div>
             </li>
           </ul>
+          <div class="panel-footer">
+            <span class="glyphicon glyphicon-heart" aria-hidden="true" id="heartbeat"></span>
+            <span class="label label-default" id="network-status">Disconnected</span>
+            <span class="label label-default" id="ip">IP</span>
+            <span class="label label-default" id="port">Port</span>
+          </div>
         </div>
-      </div>
-
-      <!-- -->
-      <div class="col-sm-3">
-        <div class="panel panel-default">
+        <div class="panel panel-info">
           <div class="panel-heading">
             <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> Robot Status Panel
           </div>
@@ -183,35 +178,34 @@
             <li class="list-group-item">
               <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Sign <span class="badge" id="sign">No Sign</span>
               <br />
+              <br />
               <div align="center">
-                <img src="./assets/img/nosign.png" id="sign-image" width="50%" height="50%" />
+                <img src="./assets/img/nosign.png" id="sign-image" style="width:50%; height:50%" />
               </div>
             </li>
             <li class="list-group-item">
               <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Speed <span class="badge" id="speed">0</span>
             </li>
-            <li class="list-group-item">
-              <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Pan angle <span class="badge" id="pan">0</span>
-            </li>
-            <li class="list-group-item">
-              <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Tilt angle <span class="badge" id="tilt">0</span>
-            </li>
+
             <!-- TODO: future needs to map graph? -->
             <!-- <li class="list-group-item">
-              <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Left wheel speed <span class="badge" id="left">0</span>
-            </li>
-            <li class="list-group-item">
-              <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Right wheel speed <span class="badge" id="right">0</span>
-            </li> -->
+            <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Left wheel speed <span class="badge" id="left">0</span>
+          </li>
+          <li class="list-group-item">
+          <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Right wheel speed <span class="badge" id="right">0</span>
+        </li> -->
             <li class="list-group-item">
               <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Sonar Range <span class="badge" id="range">0</span>
             </li>
           </ul>
         </div>
       </div>
+
     </div>
+
+    <!-- Debug logs -->
     <div class="row">
-      <div class="panel panel-default">
+      <div class="panel panel-info">
         <div class="panel-heading">
           <div class="panel-title">
             <a data-toggle="collapse" data-parent="#accordion" href="#table-scroll">
@@ -220,7 +214,7 @@
           </div>
         </div>
         <!-- Debug Log -->
-        <div id="table-scroll">
+        <div id="table-scroll" class="collapse out">
           <table class="table table-striped">
             <tbody>
             </tbody>

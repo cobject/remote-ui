@@ -14,12 +14,17 @@ body {
   margin-top:20px;
 }
 
-.slider.slider-horizontal {
-  width: 192px;
-  height: 20px;
+img {
+  width:92%;
+  height:92%;
 }
 
-.slider.slider-vertical {
-  height: 192px;
+/*.slider.slider-vertical {
+  height: 90%;
   width: 20px;
+}*/
+
+.slider.slider-horizontal {
+  width: 90%;
+  height: 20px;
 }

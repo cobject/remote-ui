@@ -56,7 +56,11 @@ ipcRenderer.on('network:status', (event, data) => {
     $('#ip').html(settings.get('host'));
     $('#port').html(settings.get('port.command'));
   }
-  $('#network-status').html(data).fadeOut().fadeIn();
+  var cap = data[0].toUpperCase() + data.slice(1);
+  $('#network-status').html(cap);
+  $('#network-status').stop();
+  $('#network-status').fadeOut();
+  $('#network-status').fadeIn();
 });
 
 $('#camera-pan').slider({
@@ -86,6 +90,16 @@ $('#camera-tilt').slider().on('slideStop', (event) => {
     cmd: 2,
     value: event.value
   });
+});
+
+$('#dump-slider').slider({
+  formatter: function(value) {
+    return value;
+  }
+});
+
+$('#dump-slider').slider().on('slideStop', (event) => {
+  // console.log("pan value: ", event.value);
 });
 
 $("#record-image").slider({

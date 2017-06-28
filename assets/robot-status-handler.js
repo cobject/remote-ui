@@ -4,6 +4,12 @@ const settings = require('electron-settings');
 
 ipcRenderer.on('robot:status', onRobotCommand);
 
+function blink(item) {
+  $(item).stop();
+  $(item).fadeOut();
+  $(item).fadeIn();
+}
+
 function onRobotCommand(event, data) {
   switch (data[0]) {
     case 0x01:
@@ -37,9 +43,11 @@ function handleRobotStatus(data) {
     switch (map[0]) {
       case "action":
         if(map[1] == "Manual" || map[1] == "Suspend") {
-          $("#mode").html(map[1]).fadeOut().fadeIn();
+          $("#mode").html(map[1]);
+          blink("#mode");
         } else {
-          $("#mode").html("Auto").fadeOut().fadeIn();
+          $("#mode").html("Auto");
+          blink("#mode");
         }
         $("#" + map[0]).html(map[1]).fadeOut().fadeIn();
         break;
@@ -47,16 +55,18 @@ function handleRobotStatus(data) {
         // console.log(map[1]);];
         var filename = map[1].replace(" ", "-");
         console.log(filename);
-        $("#" + map[0]).html(map[1]).fadeOut().fadeIn();
+        $("#" + map[0]).html(map[1]);
+        blink("#" + map[0]);
         $('#sign-image').attr("src", "./assets/sign/" + filename + ".jpg");
-        $('#sign-image').fadeOut().fadeIn();
+        blink("#sign-image");
         break;
       case "pan":
       case "tilt":
       case "left":
       case "right":
       case "sonar":
-        $("#" + map[0]).html(map[1]).fadeOut().fadeIn();
+        $("#" + map[0]).html(map[1]);
+        blink("#" + map[0]);
         break;
 
       default:
@@ -74,5 +84,5 @@ function handleDebugLog(data) {
 }
 
 function handleHeartbeat() {
-  $('#heartbeat').fadeOut().fadeIn();
+  blink('#heartbeat');
 }

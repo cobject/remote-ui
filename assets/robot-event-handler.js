@@ -2,23 +2,25 @@ const electron = require('electron');
 const { ipcRenderer } = electron;
 
 $(document).keydown(function(e) {
-  e.preventDefault();
-  handleKey(e.key, true);
+  if(handleKey(e.key, true) === true) {
+    e.preventDefault();
+  }
 });
 
 $(document).keyup(function(e) {
-  e.preventDefault();
-  handleKey(e.key, false);
+  if(handleKey(e.key, false) === true) {
+    e.preventDefault();
+  }
 });
 
 function handleKey(key, flag) {
   switch(key) {
-    case "ArrowUp":     goForward(flag);    break;
-    case "ArrowDown":   goBackward(flag);   break;
-    case "ArrowLeft":   turnLeft(flag);     break;
-    case "ArrowRight":  turnRight(flag);    break;
+    case "ArrowUp":     goForward(flag);    return true;
+    case "ArrowDown":   goBackward(flag);   return true;
+    case "ArrowLeft":   turnLeft(flag);     return true;
+    case "ArrowRight":  turnRight(flag);    return true;
     default:
-      break;
+      return false;
   }
 }
 $(document).keyup(function(e) {
