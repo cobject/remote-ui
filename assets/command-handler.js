@@ -20,7 +20,7 @@ class CommandHandler {
   }
 
   start() {
-    this.commandManager.registerCommandHandler(this.onData.bind(this)); // TODO: bind?
+    this.commandManager.registerCommandHandler(this.onData.bind(this));
     this.commandManager.connect();
   }
 
@@ -28,11 +28,25 @@ class CommandHandler {
     this.commandManager.close();
   }
 
+  onDialogCallback(res) {
+    console.log("onDialogCallback()", res);
+    // No : 1, Yes: 0
+    this.finish();
+    if(0 == res) {
+      this.start();
+    }
+  }
+
   onData(event, data) {
     console.log('onData: ', data);
     // heartbeat
-    if(data[0] == 0x06) {
+    if(data[0] == 0x03) {
       this.handleHeartbeat();
+    } else if(data == "disconnected") {
+      if(this.timerId !== undefined) {
+        clearTimeout(this.timerId);
+        this.timerId = undefined;
+      }
     }
 
     // to UI
@@ -57,12 +71,6 @@ class CommandHandler {
   onPowerOff(event, mode) {
     console.log("onPowerOff()");
     this.commandManager.write(new Uint8Array([5]));
-    // dialog.showMessageBox(options, function(res) {
-    //   // No : 1, Yes: 0
-    //   if(1 == res) {
-    //     this.finish();
-    //   }
-    // });
   }
 
   handleHeartbeat() {
@@ -72,18 +80,13 @@ class CommandHandler {
       // callback heartbeat to Robot
       this.commandManager.write(new Uint8Array([6]));
     }
-    this.timerId = setTimeout(this.onTimeout.bind(this), 6000);
+    this.timerId = setTimeout(this.onTimeout.bind(this), 5000);
   }
 
   onTimeout() {
     this.timerId = undefined;
     console.log("heartbeat error!!");
-    // dialog.showMessageBox(options, function(res) {
-    //   // No : 1, Yes: 0
-    //   if(1 == res) {
-    //     this.finish();
-    //   }
-    // });
+    dialog.showMessageBox(options, this.onDialogCallback.bind(this));
   }
 
 }

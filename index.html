@@ -5,6 +5,7 @@
   <title>Remote User Interfac</title>
   <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="./node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css" rel="stylesheet">
+  <!-- <link href="./node_modules/rangeslider.js/dist/rangeslider.css" rel="stylesheet"> -->
   <link href="./assets/css/common.css" rel="stylesheet">
 </head>
 
@@ -62,9 +63,9 @@
                 <br />
                 <br />
                 <img src="./assets/img/noimage.png" id="dump-img" />
-                <form>
+                <!-- <form>
                   <input id="record-image" type="text" size="1100" data-slider-id="record-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
-                </form>
+                </form> -->
               </li>
             </ul>
           </div>
@@ -79,14 +80,14 @@
                 <input type="text" class="form-control" size="10" placeholder="Host IP" id="host">
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Host <span class="caret"></span></button>
-                  <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a href="#" id="robot-ip">172.20.10.14</a></li>
-                    <li><a href="#" id="localhost">localhost</a></li>
-                  </ul>
-                  <button type="button" class="btn btn-default" id="connect-btn">
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a href="#" id="robot-ip">172.20.10.14</a></li>
+                  <li><a href="#" id="localhost">localhost</a></li>
+                </ul>
+                <button type="button" class="btn btn-default" id="connect-btn">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                   </button>
-                  <button type="button" class="btn btn-default" id="disconnect-btn">
+                <button type="button" class="btn btn-default" id="disconnect-btn">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                   </button>
                 </span>
@@ -95,6 +96,7 @@
           </ul>
           <div class="panel-footer">
             <span class="label label-default" id="heartbeat">Heartbeat</span>
+            <span class="label label-default" id="network-status">disconnected</span>
             <span class="label label-default" id="ip">IP</span>
             <span class="label label-default" id="port">Port</span>
           </div>
@@ -131,6 +133,8 @@
               <button type="button" class="btn btn-default" id="robot-right">
                 <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
               </button>
+                <!-- <input type="range" min="10" max="1000" step="10" value="300" data-orientation="vertical"> -->
+                <!-- <input type="range" min="10" max="1000" step="10" value="300" data-orientation="horizontal"> -->
               <!-- <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdown-action"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> Action
@@ -151,10 +155,13 @@
               </div> -->
             </li>
             <li class="list-group-item">Camera Control
-              <form>
-                <input id="camera-pan" type="text" size="1100" data-slider-id="camera-pan-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
-                <input id="camera-tilt" type="text" size="1100" data-slider-id="camera-tilt-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
-              </form>
+              <div class="row" align="center">
+                <img src="./assets/img/camera.png" style="width:192px; height:192px" id="aaaa" />
+                <input id="camera-tilt" type="text" data-slider-id="camera-tilt-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" data-slider-orientation="vertical"/>
+              </div>
+              <div class="row" align="center">
+                <input id="camera-pan" type="text" data-slider-id="camera-pan-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
+              </div>
             </li>
           </ul>
         </div>
@@ -176,7 +183,9 @@
             <li class="list-group-item">
               <span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Sign <span class="badge" id="sign">No Sign</span>
               <br />
-              <img src="./assets/img/nosign.png" id="sign-image" width="50%" height="50%" />
+              <div align="center">
+                <img src="./assets/img/nosign.png" id="sign-image" width="50%" height="50%" />
+              </div>
             </li>
             <li class="list-group-item">
               <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Speed <span class="badge" id="speed">0</span>
@@ -187,12 +196,13 @@
             <li class="list-group-item">
               <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Tilt angle <span class="badge" id="tilt">0</span>
             </li>
-            <li class="list-group-item">
+            <!-- TODO: future needs to map graph? -->
+            <!-- <li class="list-group-item">
               <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span> Left wheel speed <span class="badge" id="left">0</span>
             </li>
             <li class="list-group-item">
               <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Right wheel speed <span class="badge" id="right">0</span>
-            </li>
+            </li> -->
             <li class="list-group-item">
               <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Sonar Range <span class="badge" id="range">0</span>
             </li>
@@ -209,27 +219,10 @@
             </a>
           </div>
         </div>
+        <!-- Debug Log -->
         <div id="table-scroll">
           <table class="table table-striped">
             <tbody>
-              <tr>
-                <td>John</td>
-              </tr>
-              <tr>
-                <td>John</td>
-              </tr>
-              <tr>
-                <td>John</td>
-              </tr>
-              <tr>
-                <td>John</td>
-              </tr>
-              <tr>
-                <td>John</td>
-              </tr>
-              <tr>
-                <td>John</td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -241,7 +234,6 @@
   </script>
   <script>
     require('bootstrap')
-    require('bootstrap-slider')
     require('./assets/event-handler')
     require('./assets/camera-event-handler')
     require('./assets/robot-event-handler')
@@ -249,4 +241,5 @@
     require('./assets/robot-status-handler')
   </script>
 </body>
+
 </html>

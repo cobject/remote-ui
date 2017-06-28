@@ -1,6 +1,7 @@
 const electron = require('electron');
 const { ipcRenderer } = electron;
 const settings = require('electron-settings');
+require('bootstrap-slider');
 
 $('#host').val(settings.get('host'));
 
@@ -51,10 +52,11 @@ ipcRenderer.on('host:change', () => {
 });
 
 ipcRenderer.on('network:status', (event, data) => {
-  if(data == 1) {
+  if(data == "connected") {
     $('#ip').html(settings.get('host'));
     $('#port').html(settings.get('port.command'));
   }
+  $('#network-status').html(data).fadeOut().fadeIn();
 });
 
 $('#camera-pan').slider({

@@ -5,6 +5,7 @@ const electron = require('electron');
 class CommandManager {
   constructor() {
     this.client = null;
+    this.status = "disconnected";
   }
 
   connect() {
@@ -19,6 +20,12 @@ class CommandManager {
       this.client.on('lookup', this.onLookup.bind(this));
       this.client.on('timeout', this.onTimeout.bind(this));
       this.client.connect(settings.get('port.command'), settings.get('host'));
+      this.handler("network:status", this.status = "connecting");
+    } else {
+      if(this.status == "closed") {
+        this.client.connect(settings.get('port.command'), settings.get('host'));
+        this.handler("network:status", this.status = "connecting");
+      }
     }
   }
 
@@ -28,6 +35,7 @@ class CommandManager {
       this.client.destroy();
       this.client.unref();
       this.client = null;
+      this.handler("network:status", this.status = "closing");
     }
   }
 
@@ -43,12 +51,12 @@ class CommandManager {
 
   onClose(err) {
     console.log('cmd, onClose()', err);
-    this.handler("network:status", 0/* disconnect */);
+    this.handler("network:status", this.status = "disconnected");
   }
 
   onConnect() {
     console.log("onConnect()");
-    this.handler("network:status", 1/* connect */);
+    this.handler("network:status", this.status = "connected");
   }
 
   onData(data) {
