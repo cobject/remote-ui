@@ -67,10 +67,6 @@
           <div id="collapse-dump-img" class="panel-collapse collapse out">
             <ul class="list-group" align="center">
               <li class="list-group-item">
-                <img src="./assets/img/noimage.png" id="dump-img" />
-                <input id="dump-slider" type="text" data-slider-id="camera-pan-slider" data-slider-min="1" data-slider-max="200" data-slider-step="1" data-slider-value="120" />
-                <br />
-                <br />
                 <div class="input-group">
                   <input type="text" class="form-control" placeholder="Folder name" id="dump-folder">
                   <span class="input-group-btn">
@@ -158,7 +154,7 @@
             </li>
           </ul>
           <div class="panel-footer">
-            <span class="glyphicon glyphicon-heart" aria-hidden="true" id="heartbeat"></span>
+            <span class="glyphicon glyphicon-heart" aria-hidden="true" id="heartbeat" style="color: red;"></span>
             <span class="label label-default" id="network-status">Disconnected</span>
             <span class="label label-default" id="ip">IP</span>
             <span class="label label-default" id="port">Port</span>
@@ -183,9 +179,6 @@
                 <img src="./assets/img/nosign.png" id="sign-image" style="width:50%; height:50%" />
               </div>
             </li>
-            <li class="list-group-item">
-              <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Speed <span class="badge" id="speed">0</span>
-            </li>
 
             <!-- TODO: future needs to map graph? -->
             <!-- <li class="list-group-item">
@@ -194,9 +187,9 @@
           <li class="list-group-item">
           <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Right wheel speed <span class="badge" id="right">0</span>
         </li> -->
-            <li class="list-group-item">
+            <!-- <li class="list-group-item">
               <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Sonar Range <span class="badge" id="range">0</span>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>

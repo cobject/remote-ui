@@ -91,19 +91,3 @@ $('#camera-tilt').slider().on('slideStop', (event) => {
     value: event.value
   });
 });
-
-$('#dump-slider').slider({
-  formatter: function(value) {
-    return value;
-  }
-});
-
-$('#dump-slider').slider().on('slideStop', (event) => {
-  // console.log("pan value: ", event.value);
-});
-
-$("#record-image").slider({
-  formatter: function(value) {
-    return value;
-  }
-});

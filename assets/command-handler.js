@@ -39,18 +39,27 @@ class CommandHandler {
 
   onData(event, data) {
     console.log('onData: ', data);
+
+    if(event == "robot:status") {
+      if(data[0] == 0x01) {
+        this.window.webContents.send("robot:status", data);
+      } else if(data[0] == 0x02) {
+        this.window.webContents.send("robot:log", data);
+      } else if(data[0] == 0x06) {
+        this.window.webContents.send("robot:heartbeat", data);
+        this.handleHeartbeat();
+      }
+    } else {
+      // to UI
+      this.window.webContents.send(event, data);
+    }
     // heartbeat
-    if(data[0] == 0x03) {
-      this.handleHeartbeat();
-    } else if(data == "disconnected") {
+    if(data == "disconnected") {
       if(this.timerId !== undefined) {
         clearTimeout(this.timerId);
         this.timerId = undefined;
       }
     }
-
-    // to UI
-    this.window.webContents.send(event, data);
   }
 
   onRobotCommands(event, data) {
