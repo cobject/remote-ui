@@ -70,7 +70,11 @@ $('#camera-pan').slider({
 });
 
 $('#camera-pan').slider().on('slideStop', (event) => {
-  console.log("pan value: ", event.value);
+  // console.log("pan value: ", event.value);
+  $("#pan").html(event.value);
+  $("#pan").stop();
+  $("#pan").fadeOut();
+  $("#pan").fadeIn();
   ipcRenderer.send('camera:control', {
     cmd: 1,
     value: event.value
@@ -85,7 +89,11 @@ $("#camera-tilt").slider({
 });
 
 $('#camera-tilt').slider().on('slideStop', (event) => {
-  console.log("tilt value: ", event.value);
+  // console.log("tilt value: ", event.value);
+  $("#tilt").html(event.value);
+  $("#tilt").stop();
+  $("#tilt").fadeOut();
+  $("#tilt").fadeIn();
   ipcRenderer.send('camera:control', {
     cmd: 2,
     value: event.value

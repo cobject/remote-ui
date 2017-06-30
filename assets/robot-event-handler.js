@@ -23,9 +23,6 @@ function handleKey(key, flag) {
       return false;
   }
 }
-$(document).keyup(function(e) {
-  console.log("up", e.key);
-});
 
 function goForward(flag) {
   ipcRenderer.send('robot:control', {cmd: 1, onOff: flag});
@@ -73,4 +70,11 @@ $('#robot-right').mousedown(() => {
 
 $('#robot-right').mouseup(() => {
   turnRight(false);
+});
+
+$('#debug-cmd').click(() => {
+  var config = $('#debug-cmd-txt').val();
+  console.log("config:", config);
+  ipcRenderer.send('robot:config', {cmd: 4, data: config});
+  $('#debug-cmd-txt').val("");
 });

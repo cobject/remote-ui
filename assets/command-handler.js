@@ -17,6 +17,7 @@ class CommandHandler {
     ipcMain.on('camera:control', this.onCameraCommands.bind(this));
     ipcMain.on('mode:control', this.onModeCommands.bind(this));
     ipcMain.on('power:off', this.onPowerOff.bind(this));
+    ipcMain.on('robot:config', this.onConfig.bind(this));
   }
 
   start() {
@@ -47,7 +48,7 @@ class CommandHandler {
         this.window.webContents.send("robot:log", data);
       } else if(data[0] == 0x06) {
         this.window.webContents.send("robot:heartbeat", data);
-        this.handleHeartbeat();
+        this.handleHeartbeat(); // FIXME
       }
     } else {
       // to UI
@@ -98,6 +99,16 @@ class CommandHandler {
     dialog.showMessageBox(options, this.onDialogCallback.bind(this));
   }
 
+  onConfig(event, config) {
+    var id = Buffer([config.cmd]);
+    var length = Buffer.alloc(4);
+    length.writeInt32LE(config.data.length);
+    var data = Buffer.from(config.data);
+    const totalLength = id.length + length.length + data.length;
+    var buf = Buffer.concat([id, length, data], totalLength);
+    console.log("onConfig()", buf);
+    this.commandManager.write(buf);
+  }
 }
 
 module.exports = CommandHandler;
